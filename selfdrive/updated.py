@@ -47,7 +47,7 @@ OVERLAY_MERGED = os.path.join(STAGING_ROOT, "merged")
 FINALIZED = os.path.join(STAGING_ROOT, "finalized")
 
 NICE_LOW_PRIORITY = ["nice", "-n", "19"]
-SHORT = os.getenv("SHORT") is not None
+SHORT = True#os.getenv("SHORT") is not None
 
 # Workaround for the EON/termux build of Python having os.link removed.
 ffi = FFI()
@@ -81,7 +81,7 @@ def wait_between_updates(ready_event):
   if SHORT:
     ready_event.wait(timeout=10)
   else:
-    ready_event.wait(timeout=60 * 10)
+    ready_event.wait(timeout=60 * 5)
 
 
 def link(src, dest):
