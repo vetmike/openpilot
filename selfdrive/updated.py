@@ -47,7 +47,7 @@ OVERLAY_MERGED = os.path.join(STAGING_ROOT, "merged")
 FINALIZED = os.path.join(STAGING_ROOT, "finalized")
 
 NICE_LOW_PRIORITY = ["nice", "-n", "19"]
-SHORT = True#os.getenv("SHORT") is not None
+SHORT = os.getenv("SHORT") is not None
 
 # Workaround for the EON/termux build of Python having os.link removed.
 ffi = FFI()
@@ -81,7 +81,7 @@ def wait_between_updates(ready_event):
   if SHORT:
     ready_event.wait(timeout=10)
   else:
-    ready_event.wait(timeout=60 * 5)
+    ready_event.wait(timeout=60 * 7)
 
 
 def link(src, dest):
@@ -315,13 +315,11 @@ def attempt_update(time_offroad, need_reboot):
 
 
 def auto_update_reboot(time_offroad, need_reboot, new_version):
-  min_reboot_time = 0.5 * 60
+  min_reboot_time = 5.0 * 60
   if new_version:
     need_reboot = True
-  cloudlog.info("in auto_update_reboot function")
 
   if sec_since_boot() - time_offroad > min_reboot_time and need_reboot:  # allow reboot x minutes after stopping openpilot or starting EON
-    # os.system('am start -a android.intent.action.REBOOT')
     cloudlog.info("AUTO UPDATE: REBOOTING")
     run(["am", "start", "-a", "android.intent.action.REBOOT"])
   elif need_reboot:
