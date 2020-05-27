@@ -315,7 +315,7 @@ def attempt_update(time_offroad, need_reboot):
 
 
 def auto_update_reboot(time_offroad, need_reboot, new_version):
-  min_reboot_time = 5. * 60
+  min_reboot_time = 0.5 * 60
   if new_version:
     need_reboot = True
   cloudlog.info("in auto_update_reboot function")
