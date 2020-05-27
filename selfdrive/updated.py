@@ -322,6 +322,8 @@ def auto_update_reboot(time_offroad, need_reboot, new_version):
   if sec_since_boot() - time_offroad > min_reboot_time * 60 and need_reboot:  # allow reboot x minutes after stopping openpilot or starting EON
     # os.system('am start -a android.intent.action.REBOOT')
     run(["am", "start", "-a", "android.intent.action.REBOOT"])
+  elif need_reboot:
+    cloudlog.info("update found, waiting for enough time offroad... {} sec. left".format(min_reboot_time - (sec_since_boot() - time_offroad)))
   return need_reboot
 
 
